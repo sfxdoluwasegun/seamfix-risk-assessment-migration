@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="nano-jpa" transaction-type="JTA">
+		<jta-data-source>java:/jdbc/XADB</jta-data-source>
+		<class>com.nano.jpa.entity.admin.Admin</class>
+		<class>com.nano.jpa.entity.Borrow</class>
+		<class>com.nano.jpa.entity.ras.BorrowableAmount</class>
+		<class>com.nano.jpa.entity.EvcNotification</class>
+		<class>com.nano.jpa.entity.parent.IEntity</class>
+		<class>com.nano.jpa.entity.Loan</class>
+		<class>com.nano.jpa.entity.Inquiry</class>
+		<class>com.nano.jpa.entity.Nano</class>
+		<class>com.nano.jpa.entity.admin.Notifications</class>
+		<class>com.nano.jpa.entity.parent.Notifications</class>
+		<class>com.nano.jpa.entity.Payment</class>
+		<class>com.nano.jpa.entity.ras.RasCriteria</class>
+		<class>com.nano.jpa.entity.ras.RasWhiteList</class>
+		<class>com.nano.jpa.entity.Recharge</class>
+		<class>com.nano.jpa.entity.SercomNotification</class>
+		<class>com.nano.jpa.entity.Settings</class>
+		<class>com.nano.jpa.entity.Settlement</class>
+		<class>com.nano.jpa.entity.SettlementTrail</class>
+		<class>com.nano.jpa.entity.SmppNotification</class>
+		<class>com.nano.jpa.entity.ras.SmsMessage</class>
+		<class>com.nano.jpa.entity.Subscriber</class>
+		<class>com.nano.jpa.entity.ras.SubscriberAssessment</class>
+		<class>com.nano.jpa.entity.SubscriberHistory</class>
+		<class>com.nano.jpa.entity.SubscriberState</class>
+		<class>com.nano.jpa.entity.Thresholds</class>
+		<class>com.nano.jpa.entity.Transactions</class>
+		<class>com.nano.jpa.entity.TopUp</class>
+		<class>com.nano.jpa.entity.ReconciliationBatch</class>
+		<class>com.nano.jpa.entity.SettlementBatch</class>
+		<class>com.nano.jpa.entity.Dealing</class>
+		<class>com.nano.jpa.entity.OtherDealing</class>
+		<properties>
+			<property name="hibernate.show_sql" value="false" />
+         	<property name="hibernate.auditable" value="true" />
+         	<property name="org.hibernate.envers.default_schema" value="audit"/>
+         	<property name="hibernate.hbm2ddl.auto" value="update" />
+         	<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+         	<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+         	<property name="hibernate.default_schema" value="public"/>
+         	<property name="hibernate.transaction.factory_class" value="org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory"/>
+         	<property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
+         	<property name="hibernate.connection.release_mode" value="after_transaction" />
+         	<property name="tomee.jpa.factory.lazy" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>
