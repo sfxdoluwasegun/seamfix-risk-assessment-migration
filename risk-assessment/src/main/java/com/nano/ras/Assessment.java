@@ -147,7 +147,7 @@ public class Assessment {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
-		boolean eligible = true;
+		boolean eligible = false;
         
 		SubscriberState subscriberState = queryManager.getSubscriberStateByMsisdn(subscriber.getMsisdn());
 		SubscriberAssessment subscriberAssessment = queryManager.createNewAssessment(subscriber, subscriberState);
