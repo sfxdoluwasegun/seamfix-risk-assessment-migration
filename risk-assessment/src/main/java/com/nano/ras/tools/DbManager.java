@@ -145,7 +145,7 @@ public class DbManager {
 		Root<BorrowableAmount> root = criteriaQuery.from(BorrowableAmount.class);
 
 		criteriaQuery.select(root);
-		criteriaQuery.orderBy(criteriaBuilder.desc(root.get(BorrowableAmount_.amount)));
+		criteriaQuery.orderBy(criteriaBuilder.asc(root.get(BorrowableAmount_.amount)));
 
 		try {
 			return entityManager.createQuery(criteriaQuery).getResultList();

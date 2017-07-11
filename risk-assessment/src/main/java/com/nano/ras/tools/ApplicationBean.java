@@ -18,6 +18,7 @@ public class ApplicationBean {
 	
 	private int fetchSize = 25000 ;
 	private int breakTime = 5;
+	private int amountPosition = 4;
 	
 	private boolean assessTopupFrequency = true ;
 	private boolean assessTopupAmount = true ;
@@ -26,7 +27,7 @@ public class ApplicationBean {
 	private boolean assessTarrifplan = true ;
 	
 	private List<BorrowableAmount> borrowableAmounts ;
-
+	
 	public int getFetchSize() {
 		return fetchSize;
 	}
@@ -89,6 +90,14 @@ public class ApplicationBean {
 
 	public void setAssessTopupFrequency(boolean assessTopupFrequency) {
 		this.assessTopupFrequency = assessTopupFrequency;
+	}
+	
+	public int getAmountPosition(){
+		return amountPosition;
+	}
+	
+	public void setAmountPosition(int amountPosition){
+		this.amountPosition = amountPosition;
 	}
 
 }
