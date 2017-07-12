@@ -139,13 +139,13 @@ public class DbManager {
 	 * 
 	 * @return list of borrowableAmounts
 	 */
-	public List<BorrowableAmount> getBorrowableAmountListDesc(){
+	public List<BorrowableAmount> getBorrowableAmountListAsc(){
 
 		CriteriaQuery<BorrowableAmount> criteriaQuery = criteriaBuilder.createQuery(BorrowableAmount.class);
 		Root<BorrowableAmount> root = criteriaQuery.from(BorrowableAmount.class);
 
 		criteriaQuery.select(root);
-		criteriaQuery.orderBy(criteriaBuilder.desc(root.get(BorrowableAmount_.amount)));
+		criteriaQuery.orderBy(criteriaBuilder.asc(root.get(BorrowableAmount_.amount)));
 
 		try {
 			return entityManager.createQuery(criteriaQuery).getResultList();

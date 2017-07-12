@@ -45,7 +45,7 @@ public class Assessment {
 	public void init(){
 		
 		if (applicationBean.getBorrowableAmounts() == null)
-			applicationBean.setBorrowableAmounts(queryManager.getBorrowableAmountListDesc());
+			applicationBean.setBorrowableAmounts(queryManager.getBorrowableAmountListAsc());
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class Assessment {
 		stopWatch.start();
 		
 		boolean eligible = false;
-
+                
 		SubscriberAssessment subscriberAssessment = subscriber.getAssessment();
 		long minutes = new Timestamp(subscriberAssessment.getLastProcessed().getTime()).toLocalDateTime().until(LocalDateTime.now(), ChronoUnit.MINUTES);
 		log.info("Time of last assessment:" + minutes);
@@ -82,15 +82,26 @@ public class Assessment {
 			return;
 		}
 		
-		for (BorrowableAmount borrowableAmount : applicationBean.getBorrowableAmounts()) {
+		/*for (BorrowableAmount borrowableAmount : applicationBean.getBorrowableAmounts()) {
 			Map<String, Object> map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, borrowableAmount, subscriberHistories);
 			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
 			if ((boolean) map.get("eligible")){
 				eligible = true;
 				break;
 			}
+		}*/
+		int position = applicationBean.getAmountPosition()-1;
+		BorrowableAmount borrowableAmount = applicationBean.getBorrowableAmounts().get(position);
+		Map<String, Object> map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, borrowableAmount, subscriberHistories);
+		subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
+		
+		if ((boolean) map.get("eligible")){
+			eligible = borrowableAmountEligible(map, subscriberAssessment, position,  subscriberHistories, subscriber);
 		}
-
+		else{
+			eligible = borrowableAmountNotEligible(map, subscriberAssessment, position,  subscriberHistories, subscriber);
+		}
+		
 		if (!eligible)
 			queryManager.update(subscriberAssessment);
 
@@ -114,7 +125,7 @@ public class Assessment {
 		stopWatch.start();
 
 		boolean eligible = false;
-
+        
 		SubscriberState subscriberState = queryManager.getSubscriberStateByMsisdn(subscriber.getMsisdn());
 		SubscriberAssessment subscriberAssessment = queryManager.createNewAssessment(subscriber, subscriberState);
 
@@ -124,15 +135,28 @@ public class Assessment {
 			return;
 		}
 
-		for (BorrowableAmount borrowableAmount : applicationBean.getBorrowableAmounts()) {
+		/*for (BorrowableAmount borrowableAmount : applicationBean.getBorrowableAmounts()) {
 			Map<String, Object> map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, borrowableAmount, subscriberHistories);
 			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
 			if ((boolean) map.get("eligible")){
 				eligible = true;
 				break;
 			}
-		}
+		}*/
 
+		int position = applicationBean.getAmountPosition()-1;
+		
+			BorrowableAmount borrowableAmount = applicationBean.getBorrowableAmounts().get(position);
+			Map<String, Object> map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, borrowableAmount, subscriberHistories);
+			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
+			if ((boolean) map.get("eligible")){
+				eligible = borrowableAmountEligible(map, subscriberAssessment, position,  subscriberHistories, subscriber);
+			}
+			else{
+				eligible = borrowableAmountNotEligible(map, subscriberAssessment, position,  subscriberHistories, subscriber);
+			}
+		
+		
 		if (!eligible)
 			queryManager.updateWithNewTransaction(subscriberAssessment);
 
@@ -426,5 +450,36 @@ public class Assessment {
 		return ChronoUnit.DAYS.between(new Date(rechargeTime.getTime()).toLocalDate(), LocalDate.now());
 		//return TimeUnit.MILLISECONDS.toDays(rechargeTime.getTime() - subscriberAssessment.getAssessmentInitTime().getTime());
 	}
-
+	
+	private Boolean borrowableAmountEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){
+		Boolean eligible = true;
+			for(int i=(position+1); i<applicationBean.getBorrowableAmounts().size();i++){
+				map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, applicationBean.getBorrowableAmounts().get(i), subscriberHistories);
+				subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
+				if ((boolean) map.get("eligible")){
+					eligible = true;
+					continue;
+				}
+				else{
+					break;
+				}
+			}
+		return eligible;
+	}
+	
+	private Boolean borrowableAmountNotEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){	
+	    Boolean eligible = false;
+		for(int i=(position-1); i>=0; i--){
+			map = assessSubscriberEligibilityForAmount(subscriber, subscriberAssessment, applicationBean.getBorrowableAmounts().get(i), subscriberHistories);
+			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
+			if ((boolean) map.get("eligible")){
+				eligible = true;
+				continue;
+			}
+			else{
+				break;
+			}
+		}
+		return eligible;
+	}
 }
