@@ -474,10 +474,10 @@ public class Assessment {
 			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
 			if ((boolean) map.get("eligible")){
 				eligible = true;
-				continue;
+				break;
 			}
 			else{
-				break;
+				continue;
 			}
 		}
 		return eligible;
