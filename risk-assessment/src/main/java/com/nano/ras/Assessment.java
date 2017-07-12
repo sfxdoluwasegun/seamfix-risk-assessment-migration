@@ -459,7 +459,7 @@ public class Assessment {
 	 * @param threshold position in the list of borrowableAmounts
 	 * @param subscriberHistories subscribers transactions
 	 * @param subscriber subscriber details
-	 * @return true for highest eligible value
+	 * @return eligibility  for highest eligible value
 	 */
 	
 	private Boolean borrowableAmountEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){
@@ -486,7 +486,7 @@ public class Assessment {
 	 * @param threshold position in the list of borrowableAmounts
 	 * @param subscriberHistories subscribers transactions
 	 * @param subscriber subscriber details
-	 * @return true/false for highest possible borrowable amount lower than the threshold amount 
+	 * @return eligibility status for highest possible borrowable amount lower than the threshold amount 
 	 */
 	private Boolean borrowableAmountNotEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){	
 	    Boolean eligible = false;
