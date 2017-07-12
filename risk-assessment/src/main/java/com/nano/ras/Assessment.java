@@ -45,7 +45,7 @@ public class Assessment {
 	public void init(){
 		
 		if (applicationBean.getBorrowableAmounts() == null)
-			applicationBean.setBorrowableAmounts(queryManager.getBorrowableAmountListDesc());
+			applicationBean.setBorrowableAmounts(queryManager.getBorrowableAmountListAsc());
 	}
 
 	/**

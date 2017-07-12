@@ -139,7 +139,7 @@ public class DbManager {
 	 * 
 	 * @return list of borrowableAmounts
 	 */
-	public List<BorrowableAmount> getBorrowableAmountListDesc(){
+	public List<BorrowableAmount> getBorrowableAmountListAsc(){
 
 		CriteriaQuery<BorrowableAmount> criteriaQuery = criteriaBuilder.createQuery(BorrowableAmount.class);
 		Root<BorrowableAmount> root = criteriaQuery.from(BorrowableAmount.class);
