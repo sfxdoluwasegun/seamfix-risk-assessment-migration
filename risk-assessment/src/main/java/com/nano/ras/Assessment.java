@@ -451,6 +451,17 @@ public class Assessment {
 		//return TimeUnit.MILLISECONDS.toDays(rechargeTime.getTime() - subscriberAssessment.getAssessmentInitTime().getTime());
 	}
 	
+	/**
+	 * Checks {@link Subscriber} eligibility for borrowable amount(s) upwards of the threshold amount
+	 * 
+	 * @param Map containing eligibility status and updated {@link SubscriberAssessment}
+	 * @param subscriberAssessment subscribers assessment info
+	 * @param threshold position in the list of borrowableAmounts
+	 * @param subscriberHistories subscribers transactions
+	 * @param subscriber subscriber details
+	 * @return eligibility  for highest eligible value
+	 */
+	
 	private Boolean borrowableAmountEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){
 		Boolean eligible = true;
 			for(int i=(position+1); i<applicationBean.getBorrowableAmounts().size();i++){
@@ -467,6 +478,17 @@ public class Assessment {
 		return eligible;
 	}
 	
+	/**
+	 * Checks {@link Subscriber} eligibility for borrowable amount(s) downwards of the threshold amount
+	 * 
+	 * @param Map containing eligibility status and updated {@link SubscriberAssessment}
+	 * @param subscriberAssessment subscribers assessment info
+	 * @param threshold position in the list of borrowableAmounts
+	 * @param subscriberHistories subscribers transactions
+	 * @param subscriber subscriber details
+	 * @return eligibility status for highest possible borrowable amount lower than the threshold amount 
+	 */
+	
 	private Boolean borrowableAmountNotEligible(Map<String, Object> map, SubscriberAssessment subscriberAssessment, int position, List<SubscriberHistory> subscriberHistories,Subscriber subscriber){	
 	    Boolean eligible = false;
 		for(int i=(position-1); i>=0; i--){
@@ -474,10 +496,10 @@ public class Assessment {
 			subscriberAssessment = (SubscriberAssessment) map.get("subscriberAssessment");
 			if ((boolean) map.get("eligible")){
 				eligible = true;
-				continue;
+				break;
 			}
 			else{
-				break;
+				continue;
 			}
 		}
 		return eligible;
